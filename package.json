@@ -1,0 +1,13 @@
+{
+  "name": "rx-clear-server",
+  "version": "1.0.0",
+  "description": "Backend for RxClear — prescription shorthand decoder",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

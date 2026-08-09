@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RxClear — Prescription Shorthand Decoder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="pad-header">
+  <div class="pad-header__inner">
+    <div class="brand">
+      <span class="brand__rx">Rx</span>
+      <span class="brand__name">Clear</span>
+    </div>
+    <p class="brand__tag">Turn shorthand like <span class="code-inline">1‑0‑1</span> and <span class="code-inline">TDS</span> into a schedule anyone can follow — no guessing, no pharmacy call-back.</p>
+  </div>
+  <div class="perforation" aria-hidden="true"></div>
+</header>
+
+<main class="sheet">
+
+  <section class="panel panel--form" aria-labelledby="fill-heading">
+    <div class="panel__label">
+      <span class="panel__eyebrow">Fill the pad</span>
+      <h2 id="fill-heading">Enter the prescription</h2>
+    </div>
+
+    <form id="rx-form" novalidate>
+      <div class="field-row">
+        <label class="field">
+          <span class="field__label">Patient name <em>(optional)</em></span>
+          <input type="text" id="patientName" placeholder="e.g. Rina Shah" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span class="field__label">Start date</span>
+          <input type="date" id="startDate" required />
+        </label>
+      </div>
+
+      <div id="medicine-list" class="medicine-list"></div>
+
+      <button type="button" id="add-medicine" class="btn btn--ghost">+ Add another medicine</button>
+
+      <div class="form-footer">
+        <button type="submit" class="btn btn--primary">Build my schedule</button>
+        <p id="form-error" class="form-error" role="alert" aria-live="polite"></p>
+      </div>
+    </form>
+
+    <details class="lookup">
+      <summary>Already have a schedule code?</summary>
+      <div class="lookup__row">
+        <input type="text" id="lookup-id" placeholder="e.g. 4f9a21bc" maxlength="8" />
+        <button type="button" id="lookup-btn" class="btn btn--ghost btn--small">Open</button>
+      </div>
+      <p id="lookup-error" class="form-error" role="alert" aria-live="polite"></p>
+    </details>
+  </section>
+
+  <section class="panel panel--result" id="result-panel" aria-labelledby="result-heading" hidden>
+    <div class="panel__label">
+      <span class="panel__eyebrow">The pillbox</span>
+      <h2 id="result-heading">Your dose schedule</h2>
+    </div>
+
+    <div class="share-strip">
+      <div>
+        <span class="share-strip__label">Schedule code</span>
+        <span id="share-id" class="share-strip__id"></span>
+      </div>
+      <div class="share-strip__actions">
+        <button type="button" id="copy-link" class="btn btn--ghost btn--small">Copy link</button>
+        <button type="button" id="print-btn" class="btn btn--ghost btn--small">Print</button>
+      </div>
+    </div>
+
+    <div id="legend" class="legend" aria-hidden="true"></div>
+
+    <div id="schedule-output" class="schedule-output"></div>
+  </section>
+
+</main>
+
+<template id="medicine-template">
+  <div class="medicine-card">
+    <button type="button" class="medicine-card__remove" aria-label="Remove this medicine">&times;</button>
+    <div class="field-row">
+      <label class="field">
+        <span class="field__label">Medicine</span>
+        <input type="text" class="med-name" placeholder="e.g. Paracetamol 500mg" required />
+      </label>
+      <label class="field">
+        <span class="field__label">Dosage code</span>
+        <input type="text" class="med-code" placeholder="e.g. BD, TDS, HS, 1-0-1" required />
+      </label>
+    </div>
+    <div class="field-row">
+      <label class="field field--narrow">
+        <span class="field__label">Duration (days)</span>
+        <input type="number" class="med-duration" min="1" value="5" required />
+      </label>
+      <label class="field">
+        <span class="field__label">Instructions <em>(optional)</em></span>
+        <input type="text" class="med-instructions" placeholder="e.g. after food / AC / PC" />
+      </label>
+    </div>
+    <p class="med-preview" aria-live="polite"></p>
+  </div>
+</template>
+
+<script src="app.js"></script>
+</body>
+</html>

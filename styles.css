@@ -1,0 +1,415 @@
+/* ---------------------------------------------------------------
+   RxClear — token system
+   Color:  ink #16233A · paper #F2F4EF · teal #1F6F63 · amber #D98E2B
+           clay-red #B84A3E · line #C7CDBF
+   Type:   display = Fraunces (restrained) · body = IBM Plex Sans
+           data/code = IBM Plex Mono
+   Signature: the pillbox schedule grid + torn-pad perforation
+------------------------------------------------------------------*/
+
+:root {
+  --ink: #16233a;
+  --paper: #f2f4ef;
+  --paper-raised: #ffffff;
+  --teal: #1f6f63;
+  --teal-deep: #17554b;
+  --amber: #d98e2b;
+  --clay: #b84a3e;
+  --line: #c7cdbf;
+  --line-soft: #dde1d6;
+  --muted: #5c6a63;
+
+  --font-display: "Fraunces", serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --radius: 10px;
+  --shadow-card: 0 1px 2px rgba(22, 35, 58, 0.06), 0 8px 24px -12px rgba(22, 35, 58, 0.18);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+/* ---------------- Header / prescription pad ---------------- */
+
+.pad-header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2.75rem 1.5rem 2.25rem;
+}
+
+.pad-header__inner {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-family: var(--font-display);
+}
+
+.brand__rx {
+  font-size: 2.6rem;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--amber);
+  line-height: 1;
+}
+
+.brand__name {
+  font-size: 2.1rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.brand__tag {
+  margin: 0.85rem 0 0;
+  max-width: 46ch;
+  color: #cdd6cf;
+  font-size: 1.02rem;
+}
+
+.code-inline {
+  font-family: var(--font-mono);
+  background: rgba(217, 142, 43, 0.18);
+  color: var(--amber);
+  padding: 0.05em 0.4em;
+  border-radius: 4px;
+  font-size: 0.92em;
+}
+
+/* Torn perforation strip — the "tear along this line" of a real pad */
+.perforation {
+  height: 14px;
+  margin-top: 2rem;
+  background-image: radial-gradient(circle, var(--paper) 3.5px, transparent 3.6px);
+  background-size: 18px 18px;
+  background-position: center;
+  background-repeat: repeat-x;
+}
+
+/* ---------------- Layout ---------------- */
+
+.sheet {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.panel {
+  background: var(--paper-raised);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 1.75rem 1.75rem 2rem;
+}
+
+.panel__label { margin-bottom: 1.4rem; }
+
+.panel__eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.35rem;
+}
+
+.panel h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--ink);
+}
+
+/* ---------------- Form ---------------- */
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.field--narrow { max-width: 160px; }
+
+.field__label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+.field__label em { font-style: normal; color: #96a19a; }
+
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+input::placeholder { color: #9aa39a; }
+
+.medicine-list { display: grid; gap: 1.1rem; margin: 1.4rem 0 1.2rem; }
+
+.medicine-card {
+  position: relative;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.2rem 0.6rem;
+  background: #fbfcfa;
+}
+
+.medicine-card__remove {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--paper-raised);
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.medicine-card__remove:hover { background: var(--clay); color: white; border-color: var(--clay); }
+
+.med-preview {
+  margin: 0.2rem 0 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  color: var(--teal-deep);
+  min-height: 1.2em;
+}
+.med-preview[data-state="error"] { color: var(--clay); }
+
+.btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  padding: 0.7rem 1.3rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.08s ease, background 0.15s ease;
+}
+.btn:active { transform: scale(0.98); }
+
+.btn--primary {
+  background: var(--teal);
+  color: white;
+}
+.btn--primary:hover { background: var(--teal-deep); }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--teal-deep);
+  border: 1px solid var(--line);
+}
+.btn--ghost:hover { border-color: var(--teal); background: #eef4f1; }
+
+.btn--small { padding: 0.5rem 0.9rem; font-size: 0.85rem; }
+
+.form-footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.form-error {
+  color: var(--clay);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.lookup {
+  margin-top: 1.6rem;
+  border-top: 1px solid var(--line-soft);
+  padding-top: 1.1rem;
+}
+.lookup summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.lookup__row {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+}
+.lookup__row input {
+  flex: 1;
+  font-family: var(--font-mono);
+}
+
+/* ---------------- Result / pillbox ---------------- */
+
+.share-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 8px;
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 1.4rem;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+.share-strip__label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #9fb0a5;
+}
+.share-strip__id {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  color: var(--amber);
+}
+.share-strip__actions { display: flex; gap: 0.5rem; }
+.share-strip .btn--ghost { border-color: #3a4a5f; color: var(--paper); }
+.share-strip .btn--ghost:hover { background: #223448; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.1rem;
+  margin-bottom: 1.3rem;
+}
+.legend__item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.legend__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Pillbox grid: each day = a compartment, doses = pill-shaped tags */
+.schedule-output {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.9rem;
+}
+
+.day-compartment {
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #fbfcfa 0%, #f4f6f1 100%);
+  padding: 0.85rem 0.85rem 0.95rem;
+}
+
+.day-compartment__date {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.day-compartment__doses {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.pill-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  padding: 0.32rem 0.55rem;
+  border-radius: 999px;
+  background: var(--paper-raised);
+  border: 1px solid var(--line-soft);
+}
+
+.pill-tag__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pill-tag__time {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+.day-compartment--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a9b2a5;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.as-needed-note {
+  grid-column: 1 / -1;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-top: 1px dashed var(--line);
+  padding-top: 0.8rem;
+  margin-top: 0.3rem;
+}
+
+/* ---------------- Responsive ---------------- */
+
+@media (max-width: 640px) {
+  .field-row { grid-template-columns: 1fr; }
+  .field--narrow { max-width: none; }
+  .brand__rx { font-size: 2.1rem; }
+  .brand__name { font-size: 1.7rem; }
+  .panel { padding: 1.4rem 1.1rem 1.6rem; }
+  .share-strip { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------------- Print ---------------- */
+
+@media print {
+  .pad-header, .panel--form { display: none; }
+  .share-strip__actions { display: none; }
+  body { background: white; }
+  .panel { box-shadow: none; border: none; }
+}
